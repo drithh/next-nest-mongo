@@ -1,7 +1,7 @@
-import { RawDataDto } from './dtos/raw-data.dto';
+import { CreateRawDataDto } from './dtos/create-raw-data.dto';
 import { Telecom } from './schemas/telecom.schema';
 
-export const mapRawDataToTelecom = (dto: RawDataDto): Telecom => {
+export const mapRawDataToTelecom = (dto: CreateRawDataDto): Telecom => {
   const objectName: Telecom['objectName'] = {
     name: dto['Object Name']['name'],
     functionName: dto['Object Name']['functionName'],

@@ -8,6 +8,8 @@ import {
 } from './schemas/telecom.schema';
 import { Model } from 'mongoose';
 import { mapRawDataToTelecom } from './telecom.mapper';
+import { GetAvailabilityDto } from './dtos/get-availability.dto';
+import { GetAvailabilityResponseDto } from './dtos/get-availability-response.dto';
 
 @Injectable()
 export class TelecomsService {
@@ -42,7 +44,28 @@ export class TelecomsService {
       }
       throw new InternalServerErrorException();
     }
+  }
 
-    return 'File uploaded successfully.';
+  async getFilteredData(
+    enodebId: string,
+    cellId: string,
+    startDate: string,
+    endDate: string,
+  ): Promise<GetAvailabilityResponseDto[]> {
+    const data = await this.telecomModel
+      .find({
+        'objectName.eNodeBId': enodebId,
+        'objectName.localCellId': cellId,
+        resultTime: {
+          $gte: new Date(startDate),
+          $lte: new Date(endDate),
+        },
+      })
+      .exec();
+
+    return data.map((item) => ({
+      resultTime: item.resultTime.toISOString(),
+      availability: (item.lCellAvailDur / 900) * 100,
+    }));
   }
 }

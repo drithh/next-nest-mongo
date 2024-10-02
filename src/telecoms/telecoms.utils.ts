@@ -3,14 +3,15 @@ import { plainToInstance } from 'class-transformer';
 import { ValidationError, validate } from 'class-validator';
 import { parse, Parser } from 'csv-parse';
 import { Readable } from 'stream';
-import { ObjectName, RawDataDto } from './dtos/raw-data.dto';
+import { ObjectName, CreateRawDataDto } from './dtos/create-raw-data.dto';
 
 export async function parseCsv(
   file: Express.Multer.File,
 ): Promise<
-  [RawDataDto[], null] | [null, Error | BadRequestException | ValidationError]
+  | [CreateRawDataDto[], null]
+  | [null, Error | BadRequestException | ValidationError]
 > {
-  const parsedData: RawDataDto[] = [];
+  const parsedData: CreateRawDataDto[] = [];
 
   const bufferStream = new Readable();
   bufferStream.push(file.buffer);
@@ -37,8 +38,8 @@ export async function parseCsv(
 
 async function validateRow(
   data: any,
-): Promise<[RawDataDto, null] | [null, Error | ValidationError]> {
-  const csvData = plainToInstance(RawDataDto, data);
+): Promise<[CreateRawDataDto, null] | [null, Error | ValidationError]> {
+  const csvData = plainToInstance(CreateRawDataDto, data);
   const validationErrors = await validate(csvData);
 
   if (validationErrors.length > 0) {

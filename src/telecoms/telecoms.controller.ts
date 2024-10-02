@@ -11,6 +11,7 @@ import {
   HttpStatus,
   ParseFilePipeBuilder,
   HttpCode,
+  Query,
 } from '@nestjs/common';
 import { TelecomsService } from './telecoms.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -24,7 +25,9 @@ import {
 import {
   InsertWithDuplicationResponseDto,
   SuccessInsertResponseDto,
-} from './dtos/response.dto';
+} from './dtos/create-raw-data-response';
+import { GetAvailabilityDto } from './dtos/get-availability.dto';
+import { GetAvailabilityResponseDto } from './dtos/get-availability-response.dto';
 
 @Controller('telecoms')
 export class TelecomsController {
@@ -76,5 +79,23 @@ export class TelecomsController {
     raw_data: Express.Multer.File,
   ) {
     return this.telecomsService.create(raw_data);
+  }
+
+  @Get()
+  @ApiResponse({
+    status: 200,
+    description: 'Filtered raw data retrieved successfully',
+    type: [GetAvailabilityResponseDto],
+  })
+  async getAvailabilities(
+    @Query() query: GetAvailabilityDto, // Use the DTO here
+  ): Promise<GetAvailabilityResponseDto[]> {
+    const { enodebId, cellId, startDate, endDate } = query; // Destructure query
+    return this.telecomsService.getFilteredData(
+      enodebId,
+      cellId,
+      startDate,
+      endDate,
+    );
   }
 }

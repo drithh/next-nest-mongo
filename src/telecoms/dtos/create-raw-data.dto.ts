@@ -28,7 +28,7 @@ export class ObjectName {
   cellFddTddIndication: string;
 }
 
-export class RawDataDto {
+export class CreateRawDataDto {
   @IsNotEmpty()
   @IsDate()
   @Transform(({ value }) => new Date(value))
@@ -103,6 +103,6 @@ export class RawDataDto {
   'L.Voice.E2EVQI.Poor.Times': number;
 
   static getKeys(): string[] {
-    return Object.keys(new RawDataDto());
+    return Object.keys(new CreateRawDataDto());
   }
 }
