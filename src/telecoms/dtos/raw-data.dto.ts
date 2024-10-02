@@ -32,10 +32,12 @@ export class RawDataDto {
   @IsNotEmpty()
   @IsDate()
   @Transform(({ value }) => new Date(value))
-  'Result Time': string;
+  'Result Time': Date;
 
   @IsNotEmpty()
-  'Granularity Period': string;
+  @IsNumber()
+  @Transform(({ value }) => parseToNumber('Granularity Period', value))
+  'Granularity Period': number;
 
   @IsNotEmpty()
   @Transform(({ value }) => transformTextToObjectName(value))

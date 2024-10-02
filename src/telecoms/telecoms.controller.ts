@@ -10,6 +10,7 @@ import {
   UploadedFile,
   HttpStatus,
   ParseFilePipeBuilder,
+  HttpCode,
 } from '@nestjs/common';
 import { TelecomsService } from './telecoms.service';
 import { FileInterceptor } from '@nestjs/platform-express';
@@ -20,18 +21,29 @@ import {
   ApiOperation,
   ApiResponse,
 } from '@nestjs/swagger';
+import {
+  InsertWithDuplicationResponseDto,
+  SuccessInsertResponseDto,
+} from './dtos/response.dto';
 
 @Controller('telecoms')
 export class TelecomsController {
   constructor(private readonly telecomsService: TelecomsService) {}
 
   @Post()
+  @HttpCode(HttpStatus.CREATED)
   @UseInterceptors(FileInterceptor('raw_data'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Upload a Raw CSV file' })
   @ApiResponse({
+    status: 201,
+    description: 'Created - Records inserted successfully.',
+    type: SuccessInsertResponseDto,
+  })
+  @ApiResponse({
     status: 200,
-    description: 'File uploaded successfully.',
+    description: 'Created - Records inserted successfully.',
+    type: InsertWithDuplicationResponseDto,
   })
   @ApiResponse({
     status: 422,

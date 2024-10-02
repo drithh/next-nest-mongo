@@ -18,7 +18,7 @@ export class ObjectName {
   cellName: string;
 
   @Prop({ required: true })
-  eNodeBId: number;
+  eNodeBId: string;
 
   @Prop({ required: true })
   cellFddTddIndication: string;

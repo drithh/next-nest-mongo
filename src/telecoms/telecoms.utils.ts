@@ -23,7 +23,7 @@ export async function parseCsv(
       if (data['Result Time'] === '') {
         continue;
       }
-      const [parsedRowData, validationError] = await this.validateRow(data);
+      const [parsedRowData, validationError] = await validateRow(data);
       if (validationError) {
         return [null, validationError];
       }

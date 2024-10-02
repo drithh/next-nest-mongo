@@ -19,7 +19,7 @@ export class Telecom {
   objectName: ObjectName;
 
   @Prop({ required: true })
-  reliability: number;
+  reliability: string;
 
   @Prop({ required: true })
   lCellAvailDur: number;
@@ -50,10 +50,14 @@ export class Telecom {
 
   @Prop({ required: true })
   lVoiceE2EVQIPoorTimes: number;
+
+  constructor(partial: Partial<Telecom>) {
+    Object.assign(this, partial);
+  }
 }
 
 export const TelecomSchema = SchemaFactory.createForClass(Telecom);
 TelecomSchema.index(
-  { 'objectName.localCellId': 1, 'objectName.eNodeBId': 1 },
+  { 'objectName.localCellId': 1, 'objectName.eNodeBId': 1, resultTime: 1 },
   { unique: true },
 );
