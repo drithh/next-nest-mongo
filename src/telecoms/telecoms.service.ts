@@ -1,26 +1,13 @@
 import { Injectable } from '@nestjs/common';
-import { CreateTelecomDto } from './dto/create-telecom.dto';
-import { UpdateTelecomDto } from './dto/update-telecom.dto';
+import { parseCsv } from './telecoms.utils';
 
 @Injectable()
 export class TelecomsService {
-  create(createTelecomDto: CreateTelecomDto) {
-    return 'This action adds a new telecom';
-  }
-
-  findAll() {
-    return `This action returns all telecoms`;
-  }
-
-  findOne(id: number) {
-    return `This action returns a #${id} telecom`;
-  }
-
-  update(id: number, updateTelecomDto: UpdateTelecomDto) {
-    return `This action updates a #${id} telecom`;
-  }
-
-  remove(id: number) {
-    return `This action removes a #${id} telecom`;
+  async create(file: Express.Multer.File) {
+    const [rowData, error] = await parseCsv(file);
+    if (error) {
+      return error;
+    }
+    console.log(rowData);
   }
 }
