@@ -1,6 +1,4 @@
-import { Button } from '@/components/ui/button';
 import CreateTelecomForm from './_form/create-telecom.form';
-import Link from 'next/link';
 
 export default function Home() {
   return (

@@ -3,7 +3,7 @@
 import { ChartContainer, type ChartConfig } from '@/components/ui/chart';
 import { GetAvailabilityResponseDto } from '@/generated/schemas';
 import { format } from 'date-fns';
-import { Bar, Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
+import { Legend, Line, LineChart, Tooltip, XAxis, YAxis } from 'recharts';
 
 const chartConfig = {
   availability: {

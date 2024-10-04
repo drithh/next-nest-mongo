@@ -1,9 +1,5 @@
 'use client';
 
-import { Dropzone } from '@/components/dropzone';
-import { Button } from '@/components/ui/button';
-import Link from 'next/link';
-
 export default function Home() {
   return (
     <div className="min-h-screen flex h-full flex-col gap-24 justify-center max-w-2xl mx-auto font-sans">

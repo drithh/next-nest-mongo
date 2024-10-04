@@ -9,7 +9,13 @@ async function bootstrap() {
     origin: '*',
   });
   setupSwagger(app);
+  console.log(
+    'Listening on port',
+    process.env.PORT,
+    process.env.NODE_ENV,
+    process.env.DATABASE_URI,
+  );
   app.useGlobalPipes(new ValidationPipe());
-  await app.listen(5000);
+  await app.listen(process.env.PORT);
 }
 bootstrap();

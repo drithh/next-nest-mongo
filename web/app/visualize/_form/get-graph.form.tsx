@@ -15,20 +15,9 @@ import {
 } from '@/components/ui/form';
 import { GetGraphTelecomSchema, getGraphTelecomSchema } from './form-schema';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { Dropzone } from '@/components/dropzone';
-import FileMetadata from '../_components/file-metadata';
-import {
-  ErrorResponseDto,
-  GetAvailabilityResponseDto,
-  InsertWithDuplicationResponseDto,
-  SuccessInsertResponseDto,
-  ValidationErrorResponseDto,
-} from '@/generated/schemas';
+import { GetAvailabilityResponseDto } from '@/generated/schemas';
 import { useTelecomsControllerGetAvailabilities } from '@/generated/default/default';
 import { DatePicker } from '@/components/date-picker';
-
-interface GetGraphTelecomProps {}
 
 const TOAST_MESSAGES = {
   error: {
@@ -87,7 +76,7 @@ export default function GetGraphTelecomForm({
       setGraphData(data.data);
       toast.dismiss();
     }
-  }, [data]);
+  }, [data, setGraphData]);
 
   if (error) {
     toast.error(TOAST_MESSAGES.error.title, {
