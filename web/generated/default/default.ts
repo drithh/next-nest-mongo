@@ -46,7 +46,11 @@ export const telecomsControllerCreate = (
     formData.append('raw_data', telecomsControllerCreateBody.raw_data);
   }
 
-  return axios.post(`http://localhost:5000/telecoms`, formData, options);
+  return axios.post(
+    `https://telecom-api-gztuymsfwq-as.a.run.app/telecoms`,
+    formData,
+    options
+  );
 };
 
 export const getTelecomsControllerCreateMutationOptions = <
@@ -116,7 +120,7 @@ export const telecomsControllerGetAvailabilities = (
   params: TelecomsControllerGetAvailabilitiesParams,
   options?: AxiosRequestConfig
 ): Promise<AxiosResponse<GetAvailabilityResponseDto[]>> => {
-  return axios.get(`http://localhost:5000/telecoms`, {
+  return axios.get(`https://telecom-api-gztuymsfwq-as.a.run.app/telecoms`, {
     ...options,
     params: { ...params, ...options?.params },
   });
@@ -126,7 +130,7 @@ export const getTelecomsControllerGetAvailabilitiesQueryKey = (
   params: TelecomsControllerGetAvailabilitiesParams
 ) => {
   return [
-    `http://localhost:5000/telecoms`,
+    `https://telecom-api-gztuymsfwq-as.a.run.app/telecoms`,
     ...(params ? [params] : []),
   ] as const;
 };

@@ -21,10 +21,10 @@ import { DatePicker } from '@/components/date-picker';
 
 const TOAST_MESSAGES = {
   error: {
-    title: 'Failed to insert raw data',
+    title: 'Failed to get availability data',
   },
   loading: {
-    title: 'Inserting raw data',
+    title: 'Getting availability data',
     description: 'Mohon tunggu',
   },
 };
