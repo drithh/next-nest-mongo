@@ -5,11 +5,7 @@
  * Upload and visualize data
  * OpenAPI spec version: 1.0
  */
-import {
-  useMutation,
-  useQuery,
-  useSuspenseQuery
-} from '@tanstack/react-query'
+import { useMutation, useQuery, useSuspenseQuery } from '@tanstack/react-query';
 import type {
   DefinedInitialDataOptions,
   DefinedUseQueryResult,
@@ -22,14 +18,10 @@ import type {
   UseQueryOptions,
   UseQueryResult,
   UseSuspenseQueryOptions,
-  UseSuspenseQueryResult
-} from '@tanstack/react-query'
-import axios from 'axios'
-import type {
-  AxiosError,
-  AxiosRequestConfig,
-  AxiosResponse
-} from 'axios'
+  UseSuspenseQueryResult,
+} from '@tanstack/react-query';
+import axios from 'axios';
+import type { AxiosError, AxiosRequestConfig, AxiosResponse } from 'axios';
 import type {
   ErrorResponseDto,
   GetAvailabilityResponseDto,
@@ -37,197 +29,355 @@ import type {
   SuccessInsertResponseDto,
   TelecomsControllerCreateBody,
   TelecomsControllerGetAvailabilitiesParams,
-  ValidationErrorResponseDto
-} from '.././schemas'
-
-
+  ValidationErrorResponseDto,
+} from '.././schemas';
 
 /**
  * @summary Upload a Raw CSV file
  */
 export const telecomsControllerCreate = (
-    telecomsControllerCreateBody: TelecomsControllerCreateBody, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<InsertWithDuplicationResponseDto | SuccessInsertResponseDto>> => {const formData = new FormData();
-if(telecomsControllerCreateBody.raw_data !== undefined) {
- formData.append('raw_data', telecomsControllerCreateBody.raw_data)
- }
-
-    
-    return axios.post(
-      `http://localhost:5000/telecoms`,
-      formData,options
-    );
+  telecomsControllerCreateBody: TelecomsControllerCreateBody,
+  options?: AxiosRequestConfig
+): Promise<
+  AxiosResponse<InsertWithDuplicationResponseDto | SuccessInsertResponseDto>
+> => {
+  const formData = new FormData();
+  if (telecomsControllerCreateBody.raw_data !== undefined) {
+    formData.append('raw_data', telecomsControllerCreateBody.raw_data);
   }
 
+  return axios.post(`http://localhost:5000/telecoms`, formData, options);
+};
 
+export const getTelecomsControllerCreateMutationOptions = <
+  TError = AxiosError<ErrorResponseDto | ValidationErrorResponseDto>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof telecomsControllerCreate>>,
+    TError,
+    { data: TelecomsControllerCreateBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationOptions<
+  Awaited<ReturnType<typeof telecomsControllerCreate>>,
+  TError,
+  { data: TelecomsControllerCreateBody },
+  TContext
+> => {
+  const { mutation: mutationOptions, axios: axiosOptions } = options ?? {};
 
-export const getTelecomsControllerCreateMutationOptions = <TError = AxiosError<ErrorResponseDto | ValidationErrorResponseDto>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof telecomsControllerCreate>>, TError,{data: TelecomsControllerCreateBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationOptions<Awaited<ReturnType<typeof telecomsControllerCreate>>, TError,{data: TelecomsControllerCreateBody}, TContext> => {
-const {mutation: mutationOptions, axios: axiosOptions} = options ?? {};
+  const mutationFn: MutationFunction<
+    Awaited<ReturnType<typeof telecomsControllerCreate>>,
+    { data: TelecomsControllerCreateBody }
+  > = (props) => {
+    const { data } = props ?? {};
 
-      
+    return telecomsControllerCreate(data, axiosOptions);
+  };
 
+  return { mutationFn, ...mutationOptions };
+};
 
-      const mutationFn: MutationFunction<Awaited<ReturnType<typeof telecomsControllerCreate>>, {data: TelecomsControllerCreateBody}> = (props) => {
-          const {data} = props ?? {};
+export type TelecomsControllerCreateMutationResult = NonNullable<
+  Awaited<ReturnType<typeof telecomsControllerCreate>>
+>;
+export type TelecomsControllerCreateMutationBody = TelecomsControllerCreateBody;
+export type TelecomsControllerCreateMutationError = AxiosError<
+  ErrorResponseDto | ValidationErrorResponseDto
+>;
 
-          return  telecomsControllerCreate(data,axiosOptions)
-        }
-
-        
-
-
-  return  { mutationFn, ...mutationOptions }}
-
-    export type TelecomsControllerCreateMutationResult = NonNullable<Awaited<ReturnType<typeof telecomsControllerCreate>>>
-    export type TelecomsControllerCreateMutationBody = TelecomsControllerCreateBody
-    export type TelecomsControllerCreateMutationError = AxiosError<ErrorResponseDto | ValidationErrorResponseDto>
-
-    /**
+/**
  * @summary Upload a Raw CSV file
  */
-export const useTelecomsControllerCreate = <TError = AxiosError<ErrorResponseDto | ValidationErrorResponseDto>,
-    TContext = unknown>(options?: { mutation?:UseMutationOptions<Awaited<ReturnType<typeof telecomsControllerCreate>>, TError,{data: TelecomsControllerCreateBody}, TContext>, axios?: AxiosRequestConfig}
-): UseMutationResult<
-        Awaited<ReturnType<typeof telecomsControllerCreate>>,
-        TError,
-        {data: TelecomsControllerCreateBody},
-        TContext
-      > => {
+export const useTelecomsControllerCreate = <
+  TError = AxiosError<ErrorResponseDto | ValidationErrorResponseDto>,
+  TContext = unknown
+>(options?: {
+  mutation?: UseMutationOptions<
+    Awaited<ReturnType<typeof telecomsControllerCreate>>,
+    TError,
+    { data: TelecomsControllerCreateBody },
+    TContext
+  >;
+  axios?: AxiosRequestConfig;
+}): UseMutationResult<
+  Awaited<ReturnType<typeof telecomsControllerCreate>>,
+  TError,
+  { data: TelecomsControllerCreateBody },
+  TContext
+> => {
+  const mutationOptions = getTelecomsControllerCreateMutationOptions(options);
 
-      const mutationOptions = getTelecomsControllerCreateMutationOptions(options);
-
-      return useMutation(mutationOptions);
-    }
-    export const telecomsControllerGetAvailabilities = (
-    params: TelecomsControllerGetAvailabilitiesParams, options?: AxiosRequestConfig
- ): Promise<AxiosResponse<GetAvailabilityResponseDto[]>> => {
-    
-    return axios.get(
-      `http://localhost:5000/telecoms`,{
+  return useMutation(mutationOptions);
+};
+export const telecomsControllerGetAvailabilities = (
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: AxiosRequestConfig
+): Promise<AxiosResponse<GetAvailabilityResponseDto[]>> => {
+  return axios.get(`http://localhost:5000/telecoms`, {
     ...options,
-        params: {...params, ...options?.params},}
-    );
-  }
+    params: { ...params, ...options?.params },
+  });
+};
 
-
-export const getTelecomsControllerGetAvailabilitiesQueryKey = (params: TelecomsControllerGetAvailabilitiesParams,) => {
-    return [`http://localhost:5000/telecoms`, ...(params ? [params]: [])] as const;
-    }
-
-    
-export const getTelecomsControllerGetAvailabilitiesQueryOptions = <TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(params: TelecomsControllerGetAvailabilitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getTelecomsControllerGetAvailabilitiesQueryKey = (
+  params: TelecomsControllerGetAvailabilitiesParams
 ) => {
+  return [
+    `http://localhost:5000/telecoms`,
+    ...(params ? [params] : []),
+  ] as const;
+};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+export const getTelecomsControllerGetAvailabilitiesQueryOptions = <
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-  const queryKey =  queryOptions?.queryKey ?? getTelecomsControllerGetAvailabilitiesQueryKey(params);
+  const queryKey =
+    queryOptions?.queryKey ??
+    getTelecomsControllerGetAvailabilitiesQueryKey(params);
 
-  
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>
+  > = ({ signal }) =>
+    telecomsControllerGetAvailabilities(params, { signal, ...axiosOptions });
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>> = ({ signal }) => telecomsControllerGetAvailabilities(params, { signal, ...axiosOptions });
+  return { queryKey, queryFn, ...queryOptions } as UseQueryOptions<
+    Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-      
+export type TelecomsControllerGetAvailabilitiesQueryResult = NonNullable<
+  Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>
+>;
+export type TelecomsControllerGetAvailabilitiesQueryError = AxiosError<unknown>;
 
-      
-
-   return  { queryKey, queryFn, ...queryOptions} as UseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData> & { queryKey: QueryKey }
-}
-
-export type TelecomsControllerGetAvailabilitiesQueryResult = NonNullable<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>>
-export type TelecomsControllerGetAvailabilitiesQueryError = AxiosError<unknown>
-
-
-export function useTelecomsControllerGetAvailabilities<TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(
- params: TelecomsControllerGetAvailabilitiesParams, options: { query:Partial<UseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>> & Pick<
+export function useTelecomsControllerGetAvailabilities<
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options: {
+    query: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         DefinedInitialDataOptions<
           Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
           TError,
           TData
-        > , 'initialData'
-      >, axios?: AxiosRequestConfig}
-
-  ):  DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useTelecomsControllerGetAvailabilities<TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(
- params: TelecomsControllerGetAvailabilitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>> & Pick<
+        >,
+        'initialData'
+      >;
+    axios?: AxiosRequestConfig;
+  }
+): DefinedUseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useTelecomsControllerGetAvailabilities<
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    > &
+      Pick<
         UndefinedInitialDataOptions<
           Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
           TError,
           TData
-        > , 'initialData'
-      >, axios?: AxiosRequestConfig}
+        >,
+        'initialData'
+      >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useTelecomsControllerGetAvailabilities<
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useTelecomsControllerGetAvailabilities<TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(
- params: TelecomsControllerGetAvailabilitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>>, axios?: AxiosRequestConfig}
+export function useTelecomsControllerGetAvailabilities<
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: {
+    query?: Partial<
+      UseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions = getTelecomsControllerGetAvailabilitiesQueryOptions(
+    params,
+    options
+  );
 
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey }
+  const query = useQuery(queryOptions) as UseQueryResult<TData, TError> & {
+    queryKey: QueryKey;
+  };
 
-export function useTelecomsControllerGetAvailabilities<TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(
- params: TelecomsControllerGetAvailabilitiesParams, options?: { query?:Partial<UseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getTelecomsControllerGetAvailabilitiesQueryOptions(params,options)
-
-  const query = useQuery(queryOptions) as  UseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
 
-
-
-export const getTelecomsControllerGetAvailabilitiesSuspenseQueryOptions = <TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(params: TelecomsControllerGetAvailabilitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>>, axios?: AxiosRequestConfig}
+export const getTelecomsControllerGetAvailabilitiesSuspenseQueryOptions = <
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
 ) => {
+  const { query: queryOptions, axios: axiosOptions } = options ?? {};
 
-const {query: queryOptions, axios: axiosOptions} = options ?? {};
+  const queryKey =
+    queryOptions?.queryKey ??
+    getTelecomsControllerGetAvailabilitiesQueryKey(params);
 
-  const queryKey =  queryOptions?.queryKey ?? getTelecomsControllerGetAvailabilitiesQueryKey(params);
+  const queryFn: QueryFunction<
+    Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>
+  > = ({ signal }) =>
+    telecomsControllerGetAvailabilities(params, { signal, ...axiosOptions });
 
-  
+  return { queryKey, queryFn, ...queryOptions } as UseSuspenseQueryOptions<
+    Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+    TError,
+    TData
+  > & { queryKey: QueryKey };
+};
 
-    const queryFn: QueryFunction<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>> = ({ signal }) => telecomsControllerGetAvailabilities(params, { signal, ...axiosOptions });
+export type TelecomsControllerGetAvailabilitiesSuspenseQueryResult =
+  NonNullable<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>>;
+export type TelecomsControllerGetAvailabilitiesSuspenseQueryError =
+  AxiosError<unknown>;
 
-      
+export function useTelecomsControllerGetAvailabilitiesSuspense<
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options: {
+    query: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useTelecomsControllerGetAvailabilitiesSuspense<
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
+export function useTelecomsControllerGetAvailabilitiesSuspense<
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
 
-      
+export function useTelecomsControllerGetAvailabilitiesSuspense<
+  TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+  TError = AxiosError<unknown>
+>(
+  params: TelecomsControllerGetAvailabilitiesParams,
+  options?: {
+    query?: Partial<
+      UseSuspenseQueryOptions<
+        Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>,
+        TError,
+        TData
+      >
+    >;
+    axios?: AxiosRequestConfig;
+  }
+): UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
+  const queryOptions =
+    getTelecomsControllerGetAvailabilitiesSuspenseQueryOptions(params, options);
 
-   return  { queryKey, queryFn, ...queryOptions} as UseSuspenseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData> & { queryKey: QueryKey }
-}
+  const query = useSuspenseQuery(queryOptions) as UseSuspenseQueryResult<
+    TData,
+    TError
+  > & { queryKey: QueryKey };
 
-export type TelecomsControllerGetAvailabilitiesSuspenseQueryResult = NonNullable<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>>
-export type TelecomsControllerGetAvailabilitiesSuspenseQueryError = AxiosError<unknown>
-
-
-export function useTelecomsControllerGetAvailabilitiesSuspense<TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(
- params: TelecomsControllerGetAvailabilitiesParams, options: { query:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useTelecomsControllerGetAvailabilitiesSuspense<TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(
- params: TelecomsControllerGetAvailabilitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-export function useTelecomsControllerGetAvailabilitiesSuspense<TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(
- params: TelecomsControllerGetAvailabilitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey }
-
-export function useTelecomsControllerGetAvailabilitiesSuspense<TData = Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError = AxiosError<unknown>>(
- params: TelecomsControllerGetAvailabilitiesParams, options?: { query?:Partial<UseSuspenseQueryOptions<Awaited<ReturnType<typeof telecomsControllerGetAvailabilities>>, TError, TData>>, axios?: AxiosRequestConfig}
-
-  ):  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey } {
-
-  const queryOptions = getTelecomsControllerGetAvailabilitiesSuspenseQueryOptions(params,options)
-
-  const query = useSuspenseQuery(queryOptions) as  UseSuspenseQueryResult<TData, TError> & { queryKey: QueryKey };
-
-  query.queryKey = queryOptions.queryKey ;
+  query.queryKey = queryOptions.queryKey;
 
   return query;
 }
-
-
-

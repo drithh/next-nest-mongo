@@ -31,7 +31,6 @@ const Dropzone = React.forwardRef<HTMLDivElement, DropzoneProps>(
       e.preventDefault();
       e.stopPropagation();
       const { files } = e.dataTransfer;
-
       // Extract the accepted file types from props.accept
       const acceptedTypes = props.accept
         ? props.accept.split(',').map((type) => type.trim())

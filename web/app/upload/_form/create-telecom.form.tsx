@@ -99,14 +99,20 @@ export default function CreateTelecomForm({}: CreateTelecomProps) {
 
             const errorDescription = isValidationError(errorResponse) ? (
               errorResponse?.errors ? (
-                <ul>
-                  {errorResponse.errors.map((error) => (
-                    <li key={error.property}>
-                      {error.property}:{' '}
-                      {Object.values(error.constraints).join(', ')}
-                    </li>
-                  ))}
-                </ul>
+                <>
+                  <ul>
+                    {errorResponse.errors.slice(0, 2).map((error, index) => (
+                      <li key={index}>
+                        <span className="font-semibold">{error.property}</span>:{' '}
+                        {Object.values(error.constraints).join(', ')}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {errorResponse.errors.length > 3 && (
+                    <p>Showing 2 of {errorResponse.errors.length} errors</p>
+                  )}
+                </>
               ) : (
                 errorResponse.message
               )
@@ -127,7 +133,6 @@ export default function CreateTelecomForm({}: CreateTelecomProps) {
 
   function handleOnDrop(acceptedFiles: FileList | null) {
     if (!acceptedFiles || acceptedFiles.length === 0) {
-      form.setError('file', { message: 'File tidak valid' });
       return;
     }
     const file = acceptedFiles[0];
@@ -157,7 +162,7 @@ export default function CreateTelecomForm({}: CreateTelecomProps) {
                     <div className="space-y-6">
                       <Dropzone
                         {...field}
-                        accept=".csv"
+                        accept="text/csv"
                         dropMessage="Tarik dan lepas file di sini atau klik untuk memilih file"
                         handleOnDrop={handleOnDrop}
                       />
