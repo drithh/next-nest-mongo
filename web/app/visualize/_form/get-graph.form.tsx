@@ -20,13 +20,13 @@ import { Dropzone } from '@/components/dropzone';
 import FileMetadata from '../_components/file-metadata';
 import {
   ErrorResponseDto,
+  GetAvailabilityResponseDto,
   InsertWithDuplicationResponseDto,
   SuccessInsertResponseDto,
   ValidationErrorResponseDto,
 } from '@/generated/schemas';
 import { useTelecomsControllerGetAvailabilities } from '@/generated/default/default';
 import { DatePicker } from '@/components/date-picker';
-import { addDays } from 'date-fns';
 
 interface GetGraphTelecomProps {}
 
@@ -40,8 +40,15 @@ const TOAST_MESSAGES = {
   },
 };
 
-export default function GetGraphTelecomForm({}: GetGraphTelecomProps) {
-  const router = useRouter();
+interface GetGraphTelecomFormProps {
+  setGraphData: React.Dispatch<
+    React.SetStateAction<GetAvailabilityResponseDto[]>
+  >;
+}
+
+export default function GetGraphTelecomForm({
+  setGraphData,
+}: GetGraphTelecomFormProps) {
   type FormSchema = GetGraphTelecomSchema;
 
   const form = useForm<FormSchema>({
@@ -77,6 +84,7 @@ export default function GetGraphTelecomForm({}: GetGraphTelecomProps) {
 
   useEffect(() => {
     if (data) {
+      setGraphData(data.data);
       toast.dismiss();
     }
   }, [data]);
@@ -196,7 +204,7 @@ export default function GetGraphTelecomForm({}: GetGraphTelecomProps) {
             />
           </div>
           <Button type="submit" className="w-full h-12 font-semibold text-lg">
-            Upload
+            Visualize
           </Button>
         </form>
       </Form>

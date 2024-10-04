@@ -43,10 +43,13 @@ export function DatePicker({
       <PopoverContent className="w-auto p-0">
         <Calendar
           {...props}
+          captionLayout="dropdown-buttons"
+          fromYear={1970}
+          toYear={2025}
+          defaultMonth={date}
           mode="single"
           selected={date}
           onSelect={(date) => {
-            // add 1 day
             if (date) {
               setDate(date);
               if (onDateChange) {
