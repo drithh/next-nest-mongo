@@ -3,7 +3,8 @@
 ## Demo
 
 - **Web Application:** [https://telecom.adriel.id/](https://telecom.adriel.id/)
-- **API Documentation:** [Swagger UI](https://shadcn-table-api-gztuymsfwq-as.a.run.app/swagger)
+- **API Documentation:** [Swagger UI](https://telecom-api-gztuymsfwq-as.a.run.app/swagger)
+  Since the API is hosted on Google Cloud Run, the first request may take a few seconds to respond.
 
 ## Overview
 
@@ -31,7 +32,7 @@ Users can upload CSV files to the backend, where the data is stored in a **Mongo
 ## Technologies
 
 - **Frontend:** Next.js
-- **Backend:** NestJS
+- **Backend:** NestJShttps://telecom-api-1028993756151.asia-southeast1.run.app/
 - **Data Fetching:** TanStack Query
 - **API Documentation:** Swagger
 - **API Client Generation:** Orval
