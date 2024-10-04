@@ -31,7 +31,12 @@ export class ObjectName {
 export class CreateRawDataDto {
   @IsNotEmpty()
   @IsDate()
-  @Transform(({ value }) => new Date(value))
+  @Transform(({ value }) => {
+    if (isNaN(Date.parse(value))) {
+      throw new Error('Invalid date');
+    }
+    return new Date(value);
+  })
   'Result Time': Date;
 
   @IsNotEmpty()

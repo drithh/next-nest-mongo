@@ -1,4 +1,6 @@
 import { defineConfig } from 'orval';
+
+/** @type {defineConfig} */
 module.exports = defineConfig({
   api: {
     input: `${process.env.API_URL}/swagger-yaml`,
@@ -19,9 +21,9 @@ module.exports = defineConfig({
   apiZod: {
     input: `${process.env.API_URL}/swagger-yaml`,
     output: {
-      mode: 'tags-split',
+      mode: 'single',
       client: 'zod',
-      target: 'generated/endpoints',
+      target: 'generated/zod',
       fileExtension: '.zod.ts',
       override: {
         zod: {

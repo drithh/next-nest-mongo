@@ -6,6 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export type TelecomsControllerCreateBody = {
-  raw_data?: Blob;
-};
+export type ValidationErrorItemDtoConstraints = { [key: string]: unknown };

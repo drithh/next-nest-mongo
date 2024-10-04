@@ -6,9 +6,8 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface InsertWithDuplicationResponseDto {
-  duplicatedIndexes: string[];
+export interface ErrorResponseDto {
+  error: string;
   message: string;
-  totalDuplicated: number;
-  totalInserted: number;
+  statusCode: number;
 }

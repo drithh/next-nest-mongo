@@ -6,7 +6,4 @@
  * OpenAPI spec version: 1.0
  */
 
-export interface GetAvailabilityResponseDto {
-  availability: number;
-  resultTime: string;
-}
+export type ValidationErrorItemDtoTarget = { [key: string]: unknown };

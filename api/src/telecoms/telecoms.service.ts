@@ -1,4 +1,9 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import {
+  BadRequestException,
+  Injectable,
+  InternalServerErrorException,
+  UnprocessableEntityException,
+} from '@nestjs/common';
 import { parseCsv } from './telecoms.utils';
 import { InjectModel } from '@nestjs/mongoose';
 import {
@@ -10,6 +15,7 @@ import { Model } from 'mongoose';
 import { mapRawDataToTelecom } from './telecom.mapper';
 import { GetAvailabilityDto } from './dtos/get-availability.dto';
 import { GetAvailabilityResponseDto } from './dtos/get-availability-response.dto';
+import { ValidationError } from 'class-validator';
 
 @Injectable()
 export class TelecomsService {
@@ -21,9 +27,25 @@ export class TelecomsService {
   async create(file: Express.Multer.File) {
     const [rowData, error] = await parseCsv(file);
     if (error) {
-      throw error;
-    }
+      if (error instanceof Error) {
+        throw new InternalServerErrorException({
+          statusCode: 500,
+          message: error.message,
+        });
+      }
+      if (error instanceof BadRequestException) {
+        throw new BadRequestException({
+          statusCode: 400,
+          message: error.message,
+        });
+      }
 
+      throw new UnprocessableEntityException({
+        statusCode: 422,
+        message: 'Validation failed for the input data.',
+        errors: error,
+      });
+    }
     const telecoms = rowData.map((row) => mapRawDataToTelecom(row));
     try {
       await this.telecomModel.insertMany(telecoms, {

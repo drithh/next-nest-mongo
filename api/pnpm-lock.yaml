@@ -35,9 +35,6 @@ importers:
       csv-parse:
         specifier: ^5.5.6
         version: 5.5.6
-      csv-parser:
-        specifier: ^3.0.0
-        version: 3.0.0
       mongoose:
         specifier: ^8.7.0
         version: 8.7.0
@@ -1203,11 +1200,6 @@ packages:
 
   csv-parse@5.5.6:
     resolution: {integrity: sha512-uNpm30m/AGSkLxxy7d9yRXpJQFrZzVWLFBkS+6ngPcZkw/5k3L/jjFuj7tVnEpRn+QgmiXr21nDlhCiUK4ij2A==}
-
-  csv-parser@3.0.0:
-    resolution: {integrity: sha512-s6OYSXAK3IdKqYO33y09jhypG/bSDHPuyCme/IdEHfWpLf/jKcpitVFyOC6UemgGk8v7Q5u2XE0vvwmanxhGlQ==}
-    engines: {node: '>= 10'}
-    hasBin: true
 
   debug@2.6.9:
     resolution: {integrity: sha512-bC7ElrdJaJnPbAP+1EotYvqZsb3ecl5wi6Bfi6BJTUcNowp6cvspg0jXznRTKDjm/E7AdgFBVeAPVMNcKGsHMA==}
@@ -4295,10 +4287,6 @@ snapshots:
       which: 2.0.2
 
   csv-parse@5.5.6: {}
-
-  csv-parser@3.0.0:
-    dependencies:
-      minimist: 1.2.8
 
   debug@2.6.9:
     dependencies:

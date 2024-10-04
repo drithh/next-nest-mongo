@@ -9,6 +9,7 @@ import {
   z as zod
 } from 'zod'
 
+
 /**
  * @summary Upload a Raw CSV file
  */
@@ -18,6 +19,7 @@ export const telecomsControllerCreateResponse = zod.object({
   "totalDuplicated": zod.number(),
   "duplicatedIndexes": zod.array(zod.string())
 })
+
 
 export const telecomsControllerGetAvailabilitiesQueryParams = zod.object({
   "enodebId": zod.coerce.string(),
@@ -31,4 +33,5 @@ export const telecomsControllerGetAvailabilitiesResponseItem = zod.object({
   "availability": zod.number()
 })
 export const telecomsControllerGetAvailabilitiesResponse = zod.array(telecomsControllerGetAvailabilitiesResponseItem)
+
 

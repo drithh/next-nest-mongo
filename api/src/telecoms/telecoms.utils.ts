@@ -9,7 +9,7 @@ export async function parseCsv(
   file: Express.Multer.File,
 ): Promise<
   | [CreateRawDataDto[], null]
-  | [null, Error | BadRequestException | ValidationError]
+  | [null, Error | BadRequestException | ValidationError[]]
 > {
   const parsedData: CreateRawDataDto[] = [];
 
@@ -38,15 +38,18 @@ export async function parseCsv(
 
 async function validateRow(
   data: any,
-): Promise<[CreateRawDataDto, null] | [null, Error | ValidationError]> {
-  const csvData = plainToInstance(CreateRawDataDto, data);
-  const validationErrors = await validate(csvData);
+): Promise<[CreateRawDataDto, null] | [null, Error | ValidationError[]]> {
+  try {
+    const csvData = plainToInstance(CreateRawDataDto, data);
+    const validationErrors = await validate(csvData);
+    if (validationErrors.length > 0) {
+      return [null, validationErrors];
+    }
 
-  if (validationErrors.length > 0) {
-    return [null, validationErrors[0]];
+    return [csvData, null];
+  } catch (error) {
+    return [null, error];
   }
-
-  return [csvData, null];
 }
 
 export function parseToNumber(columnName: string, value: string): number {

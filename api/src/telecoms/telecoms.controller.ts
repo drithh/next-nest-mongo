@@ -17,10 +17,15 @@ import { TelecomsService } from './telecoms.service';
 import { FileInterceptor } from '@nestjs/platform-express';
 import 'multer';
 import {
+  ApiBadRequestResponse,
   ApiBody,
   ApiConsumes,
+  ApiCreatedResponse,
+  ApiInternalServerErrorResponse,
+  ApiOkResponse,
   ApiOperation,
   ApiResponse,
+  ApiUnprocessableEntityResponse,
 } from '@nestjs/swagger';
 import {
   InsertWithDuplicationResponseDto,
@@ -28,6 +33,10 @@ import {
 } from './dtos/create-raw-data-response';
 import { GetAvailabilityDto } from './dtos/get-availability.dto';
 import { GetAvailabilityResponseDto } from './dtos/get-availability-response.dto';
+import {
+  ErrorResponseDto,
+  ValidationErrorResponseDto,
+} from 'src/common/dtos/error';
 
 @Controller('telecoms')
 export class TelecomsController {
@@ -38,19 +47,25 @@ export class TelecomsController {
   @UseInterceptors(FileInterceptor('raw_data'))
   @ApiConsumes('multipart/form-data')
   @ApiOperation({ summary: 'Upload a Raw CSV file' })
-  @ApiResponse({
-    status: 201,
+  @ApiCreatedResponse({
     description: 'Created - Records inserted successfully.',
     type: SuccessInsertResponseDto,
   })
-  @ApiResponse({
-    status: 200,
+  @ApiOkResponse({
     description: 'Created - Records inserted successfully.',
     type: InsertWithDuplicationResponseDto,
   })
-  @ApiResponse({
-    status: 422,
+  @ApiUnprocessableEntityResponse({
     description: 'Unprocessable Entity - File type or size is invalid.',
+    type: ValidationErrorResponseDto,
+  })
+  @ApiBadRequestResponse({
+    description: 'Bad Request',
+    type: ErrorResponseDto,
+  })
+  @ApiInternalServerErrorResponse({
+    description: 'Internal Server Error',
+    type: ErrorResponseDto,
   })
   @ApiBody({
     schema: {

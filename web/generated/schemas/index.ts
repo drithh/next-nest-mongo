@@ -6,8 +6,13 @@
  * OpenAPI spec version: 1.0
  */
 
+export * from './errorResponseDto';
 export * from './getAvailabilityResponseDto';
 export * from './insertWithDuplicationResponseDto';
 export * from './successInsertResponseDto';
 export * from './telecomsControllerCreateBody';
 export * from './telecomsControllerGetAvailabilitiesParams';
+export * from './validationErrorItemDto';
+export * from './validationErrorItemDtoConstraints';
+export * from './validationErrorItemDtoTarget';
+export * from './validationErrorResponseDto';
