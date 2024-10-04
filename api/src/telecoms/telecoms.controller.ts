@@ -15,7 +15,7 @@ import {
 } from '@nestjs/common';
 import { TelecomsService } from './telecoms.service';
 import { FileInterceptor } from '@nestjs/platform-express';
-import 'multer';
+import { Multer } from 'multer';
 import {
   ApiBadRequestResponse,
   ApiBody,

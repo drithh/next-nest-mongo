@@ -34,6 +34,14 @@ export function Chart({ data }: ChartProps) {
     );
   };
 
+  if (!data || data.length === 0) {
+    return (
+      <div className="min-h-[200px] w-full flex items-center justify-center">
+        <p>No Data</p>
+      </div>
+    );
+  }
+
   return (
     <ChartContainer config={chartConfig} className="min-h-[200px] w-full">
       <LineChart data={data}>

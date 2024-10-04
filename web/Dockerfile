@@ -1,21 +1,19 @@
-FROM node:21-alpine AS build
+FROM node:21-alpine AS base
+ENV PNPM_HOME="/pnpm"
+ENV PATH="$PNPM_HOME:$PATH"
+RUN corepack enable
 
-# Set the working directory
+FROM base AS build
+
 WORKDIR /usr/src/app
 
-# Copy package.json and package-lock.json
-COPY package*.json ./
-
-# Install dependencies
-RUN npm ci
-
-# Copy the rest of the application code
+COPY package*.json pnpm-lock.yaml ./
+RUN pnpm install --frozen-lockfile
 COPY . .
 
-# Build the NestJS application
-RUN npm run build
+RUN pnpm build
 
-FROM node:21-alpine AS runner
+FROM base
 
 WORKDIR /usr/src/app
 
